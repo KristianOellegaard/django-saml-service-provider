@@ -4,7 +4,7 @@ from saml_service_provider import __version__ as version
 setup(
     name='django-saml-service-provider',
     version=version,
-    description='',
+    description='Easily let users sign in via SAML 2.0 to your django app.',
     long_description='',
     author='Kristian Oellegaard',
     author_email='kristian@kristian.io',
