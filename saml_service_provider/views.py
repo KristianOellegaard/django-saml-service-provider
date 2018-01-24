@@ -1,6 +1,5 @@
 from django.contrib.auth import login, authenticate
 from django.core.exceptions import PermissionDenied
-from django.core.urlresolvers import reverse
 from django.http import HttpResponseRedirect, HttpResponseBadRequest, HttpResponse, HttpResponseServerError
 from django.views.generic import View
 from onelogin.saml2.auth import OneLogin_Saml2_Auth
