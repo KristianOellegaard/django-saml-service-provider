@@ -1,5 +1,7 @@
 from setuptools import setup, find_packages
+
 from saml_service_provider import __version__ as version
+
 
 setup(
     name='django-saml-service-provider',
@@ -13,8 +15,8 @@ setup(
     zip_safe=False,
     include_package_data=True,
     install_requires=[
-        'Django>=1.4',
-        'python-saml'
+        'Django >= 1.4',
+        'python-saml',
     ],
     classifiers=[
         "Development Status :: 5 - Production/Stable",
