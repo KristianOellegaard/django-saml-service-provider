@@ -27,13 +27,13 @@ class SettingsMixin(object):
             sp_private_key="""-----BEGIN RSA PRIVATE KEY-----
         -----END RSA PRIVATE KEY-----"""
             ).settings
-            
+
 class LoginView(SettingsMixin, InitiateAuthenticationView):
     pass
-    
+
 class Authenticateview(SettingsMixin, CompleteAuthenticationView):
     pass
-    
+
 class XMLMetadataView(SettingsMixin, MetadataView):
     pass
 ```
