@@ -1,7 +1,7 @@
 from django.conf.urls import patterns, url
 from django.views.decorators.csrf import csrf_exempt
 
-from saml_service_provider.views import MetadataView, CompleteAuthenticationView, InitiateAuthenticationView
+from saml_service_provider.views import CompleteAuthenticationView, InitiateAuthenticationView, MetadataView
 
 
 urlpatterns = patterns('',
