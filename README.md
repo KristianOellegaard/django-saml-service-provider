@@ -2,6 +2,9 @@
 Easily let users sign in via SAML 2.0 to your django app. Based on python-saml and comes with a Onelogin.com provider, so you
 need to do very little work to get started.
 
+[![Build Status](https://travis-ci.org/KristianOellegaard/django-saml-service-provider.svg?branch=master)](https://travis-ci.org/KristianOellegaard/django-saml-service-provider)
+[![codecov](https://codecov.io/gh/KristianOellegaard/django-saml-service-provider/branch/master/graph/badge.svg)](https://codecov.io/gh/KristianOellegaard/django-saml-service-provider)
+
 # Get started
 You need to extend the three default views provided by this library and use your own settings. It can be done easily with
 a single mixin. Consider the following simple example, using the Onelogin provider. You can also do the same with the
@@ -27,13 +30,13 @@ class SettingsMixin(object):
             sp_private_key="""-----BEGIN RSA PRIVATE KEY-----
         -----END RSA PRIVATE KEY-----"""
             ).settings
-            
+
 class LoginView(SettingsMixin, InitiateAuthenticationView):
     pass
-    
+
 class Authenticateview(SettingsMixin, CompleteAuthenticationView):
     pass
-    
+
 class XMLMetadataView(SettingsMixin, MetadataView):
     pass
 ```
