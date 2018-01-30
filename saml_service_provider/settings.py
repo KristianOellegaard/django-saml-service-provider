@@ -1,16 +1,16 @@
-
 class SAMLServiceProviderSettings(object):
+
     contact_info = {
         # Contact information template, it is recommended to suply a
         # technical and support contacts.
         "technical": {
             "givenName": "technical_name",
-            "emailAddress": "technical@example.com"
+            "emailAddress": "technical@example.com",
         },
         "support": {
             "givenName": "support_name",
-            "emailAddress": "support@example.com"
-        }
+            "emailAddress": "support@example.com",
+        },
     }
 
     organization_info = {
@@ -19,19 +19,22 @@ class SAMLServiceProviderSettings(object):
         "en-US": {
             "name": "organization",
             "displayname": "Organization Name",
-            "url": "https://www.example.org/"
-        }
+            "url": "https://www.example.org/",
+        },
     }
 
-    def __init__(self,
-                 debug=False,
-                 strict=True,
-                 sp_metadata_url=None, sp_login_url=None, sp_logout_url=None, sp_x509cert=None, sp_private_key=None,  # Service provider settings (e.g. us)
-                 idp_metadata_url=None, idp_sso_url=None, idp_slo_url=None, idp_x509cert=None, idp_x509_fingerprint=None,  # Identify provider settings (e.g. onelogin)
+    def __init__(
+        self,
+        debug=False,
+        strict=True,
 
+        # Service provider settings (e.g. us)
+        sp_metadata_url=None, sp_login_url=None, sp_logout_url=None, sp_x509cert=None, sp_private_key=None,
+        # Identify provider settings (e.g. onelogin)
+        idp_metadata_url=None, idp_sso_url=None, idp_slo_url=None, idp_x509cert=None, idp_x509_fingerprint=None,
     ):
         super(SAMLServiceProviderSettings, self).__init__()
-        self.settings = default_settings = {
+        self.settings = {
             # If strict is True, then the Python Toolkit will reject unsigned
             # or unencrypted messages if it expects them to be signed or encrypted.
             # Also it will reject the messages if the SAML standard is not strictly
@@ -53,7 +56,7 @@ class SAMLServiceProviderSettings(object):
                     # SAML protocol binding to be used when returning the <Response>
                     # message. OneLogin Toolkit supports this endpoint for the
                     # HTTP-POST binding only.
-                    "binding": "urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST"
+                    "binding": "urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST",
                 },
                 # Specifies info about where and how the <Logout Response> message MUST be
                 # returned to the requester, in this case our SP.
@@ -63,7 +66,7 @@ class SAMLServiceProviderSettings(object):
                     # SAML protocol binding to be used when returning the <Response>
                     # message. OneLogin Toolkit supports the HTTP-Redirect binding
                     # only for this endpoint.
-                    "binding": "urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Redirect"
+                    "binding": "urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Redirect",
                 },
                 # Specifies the constraints on the name identifier to be used to
                 # represent the requested subject.
@@ -72,7 +75,7 @@ class SAMLServiceProviderSettings(object):
                 # Usually x509cert and privateKey of the SP are provided by files placed at
                 # the certs folder. But we can also provide them with the following parameters
                 'x509cert': sp_x509cert,
-                'privateKey': sp_private_key
+                'privateKey': sp_private_key,
             },
 
             # Identity Provider Data that we want connected with our SP.
@@ -87,7 +90,7 @@ class SAMLServiceProviderSettings(object):
                     # SAML protocol binding to be used when returning the <Response>
                     # message. OneLogin Toolkit supports the HTTP-Redirect binding
                     # only for this endpoint.
-                    "binding": "urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Redirect"
+                    "binding": "urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Redirect",
                 },
                 # SLO endpoint info of the IdP.
                 "singleLogoutService": {
@@ -96,14 +99,13 @@ class SAMLServiceProviderSettings(object):
                     # SAML protocol binding to be used when returning the <Response>
                     # message. OneLogin Toolkit supports the HTTP-Redirect binding
                     # only for this endpoint.
-                    "binding": "urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Redirect"
+                    "binding": "urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Redirect",
                 },
                 # Public x509 certificate of the IdP
                 "x509cert": idp_x509cert,
                 #   Instead of use the whole x509cert you can use a fingerprint
                 #   (openssl x509 -noout -fingerprint -in "idp.crt" to generate it)
-                "certFingerprint": idp_x509_fingerprint
-
+                "certFingerprint": idp_x509_fingerprint,
             },
             # Security settings
             # "security": {
