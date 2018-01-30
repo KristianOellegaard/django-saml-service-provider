@@ -34,7 +34,7 @@ class SAMLServiceProviderSettings(object):
         idp_metadata_url=None, idp_sso_url=None, idp_slo_url=None, idp_x509cert=None, idp_x509_fingerprint=None,
     ):
         super(SAMLServiceProviderSettings, self).__init__()
-        self.settings = default_settings = {
+        self.settings = {
             # If strict is True, then the Python Toolkit will reject unsigned
             # or unencrypted messages if it expects them to be signed or encrypted.
             # Also it will reject the messages if the SAML standard is not strictly
