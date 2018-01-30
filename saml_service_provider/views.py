@@ -6,13 +6,25 @@ from django.views.generic import View
 from onelogin.saml2.auth import OneLogin_Saml2_Auth
 from onelogin.saml2.utils import OneLogin_Saml2_Utils
 
+from saml_service_provider.settings import OneloginServiceProviderSettings
 from saml_service_provider.utils import prepare_from_django_request
 
 
 class OneloginMixin(object):
 
     def get_onelogin_settings(self):
-        raise NotImplementedError("Please define a get_saml_settings method on this view")
+        return OneloginServiceProviderSettings(
+            onelogin_connector_id=getattr(settings, 'ONELOGIN_CONNECTOR_ID', None),
+            onelogin_x509_cert=getattr(settings, 'ONELOGIN_X509_CERT', None),
+            onelogin_x509_fingerprint=getattr(settings, 'ONELOGIN_X509_FINGERPRINT', None),
+            sp_metadata_url=getattr(settings, 'SP_METADATA_URL', None),
+            sp_login_url=getattr(settings, 'SP_LOGIN_URL', None),
+            sp_logout_url=getattr(settings, 'SP_LOGOUT_URL', None),
+            debug=getattr(settings, 'SP_DEBUG', settings.DEBUG),
+            strict=getattr(settings, 'SP_STRICT', True),
+            sp_x509cert=getattr(settings, 'SP_X509_CERT', ""),
+            sp_private_key=getattr(settings, 'SP_PRIVATE_KEY', "")
+        ).settings
 
 
 class InitiateAuthenticationView(OneloginMixin, View):

@@ -6,40 +6,30 @@ need to do very little work to get started.
 [![codecov](https://codecov.io/gh/infoscout/django-saml-service-provider/branch/master/graph/badge.svg)](https://codecov.io/gh/infoscout/django-saml-service-provider)
 
 # Get started
-You need to extend the three default views provided by this library and use your own settings. It can be done easily with
-a single mixin. Consider the following simple example, using the Onelogin provider. You can also do the same with the
-regular SAMLServiceProvider - you just need to provide all the urls manually.
+If you are using OneLogin as your identity provider, you can simply add the following to your `urls.py` file to add
+all necessary authentication views:
 
 ```python
-class SettingsMixin(object):
-    def get_onelogin_settings(self):
-        return OneloginServiceProviderSettings(
-            onelogin_connector_id=1234,
-            onelogin_x509_cert="""-----BEGIN CERTIFICATE-----
------END CERTIFICATE-----""",
-
-            sp_metadata_url="http://localhost:8000%s" % reverse("saml_metadata"),
-            sp_login_url="http://localhost:8000%s" % reverse("saml_login_complete"),
-            sp_logout_url="http://localhost:8000%s" % reverse("logout"),
-
-            debug=settings.DEBUG,
-            strict=not settings.DEBUG,
-
-            sp_x509cert="""-----BEGIN CERTIFICATE-----
-        -----END CERTIFICATE-----""",
-            sp_private_key="""-----BEGIN RSA PRIVATE KEY-----
-        -----END RSA PRIVATE KEY-----"""
-            ).settings
-
-class LoginView(SettingsMixin, InitiateAuthenticationView):
-    pass
-
-class Authenticateview(SettingsMixin, CompleteAuthenticationView):
-    pass
-
-class XMLMetadataView(SettingsMixin, MetadataView):
-    pass
+# urls.py
+urlpatterns = [
+    url(r'^saml/', include('saml_service_provider.urls')),
+    ...
+]
 ```
+
+For these views to work, you will have to add a few new settings to your `settings.py` file:
+
+```python
+# settings.py
+ONELOGIN_CONNECTOR_ID = 1234
+ONELOGIN_X509_CERT = """-----BEGIN CERTIFICATE-----
+-----END CERTIFICATE-----"""  # You may provide ONELOGIN_X509_FINGERPRINT instead
+SP_METADATA_URL = 'http://localhost:8000/saml/metadata/'  # from saml_service_provider.urls
+SP_LOGIN_URL = 'http://localhost:8000/saml/initiate-login/'  # from saml_service_provider.urls
+SP_LOGOUT_URL = 'http://localhost:8000/logout/'
+```
+
+If you are using a different service provider, you will have to initialize `saml_service_provider.settings.SAMLServiceProviderSettings` directly, and you will need to create your own views, overriding the views in `saml_service_provider.views`.
 
 # Django authentication backend
 This project conveniently ships with an authentication backend - just add it to AUTHENTICATION_BACKENDS in settings and you're
