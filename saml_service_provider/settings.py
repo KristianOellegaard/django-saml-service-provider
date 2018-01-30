@@ -5,12 +5,12 @@ class SAMLServiceProviderSettings(object):
         # technical and support contacts.
         "technical": {
             "givenName": "technical_name",
-            "emailAddress": "technical@example.com"
+            "emailAddress": "technical@example.com",
         },
         "support": {
             "givenName": "support_name",
-            "emailAddress": "support@example.com"
-        }
+            "emailAddress": "support@example.com",
+        },
     }
 
     organization_info = {
@@ -19,8 +19,8 @@ class SAMLServiceProviderSettings(object):
         "en-US": {
             "name": "organization",
             "displayname": "Organization Name",
-            "url": "https://www.example.org/"
-        }
+            "url": "https://www.example.org/",
+        },
     }
 
     def __init__(
@@ -56,7 +56,7 @@ class SAMLServiceProviderSettings(object):
                     # SAML protocol binding to be used when returning the <Response>
                     # message. OneLogin Toolkit supports this endpoint for the
                     # HTTP-POST binding only.
-                    "binding": "urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST"
+                    "binding": "urn:oasis:names:tc:SAML:2.0:bindings:HTTP-POST",
                 },
                 # Specifies info about where and how the <Logout Response> message MUST be
                 # returned to the requester, in this case our SP.
@@ -66,7 +66,7 @@ class SAMLServiceProviderSettings(object):
                     # SAML protocol binding to be used when returning the <Response>
                     # message. OneLogin Toolkit supports the HTTP-Redirect binding
                     # only for this endpoint.
-                    "binding": "urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Redirect"
+                    "binding": "urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Redirect",
                 },
                 # Specifies the constraints on the name identifier to be used to
                 # represent the requested subject.
@@ -75,7 +75,7 @@ class SAMLServiceProviderSettings(object):
                 # Usually x509cert and privateKey of the SP are provided by files placed at
                 # the certs folder. But we can also provide them with the following parameters
                 'x509cert': sp_x509cert,
-                'privateKey': sp_private_key
+                'privateKey': sp_private_key,
             },
 
             # Identity Provider Data that we want connected with our SP.
@@ -90,7 +90,7 @@ class SAMLServiceProviderSettings(object):
                     # SAML protocol binding to be used when returning the <Response>
                     # message. OneLogin Toolkit supports the HTTP-Redirect binding
                     # only for this endpoint.
-                    "binding": "urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Redirect"
+                    "binding": "urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Redirect",
                 },
                 # SLO endpoint info of the IdP.
                 "singleLogoutService": {
@@ -99,14 +99,13 @@ class SAMLServiceProviderSettings(object):
                     # SAML protocol binding to be used when returning the <Response>
                     # message. OneLogin Toolkit supports the HTTP-Redirect binding
                     # only for this endpoint.
-                    "binding": "urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Redirect"
+                    "binding": "urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Redirect",
                 },
                 # Public x509 certificate of the IdP
                 "x509cert": idp_x509cert,
                 #   Instead of use the whole x509cert you can use a fingerprint
                 #   (openssl x509 -noout -fingerprint -in "idp.crt" to generate it)
-                "certFingerprint": idp_x509_fingerprint
-
+                "certFingerprint": idp_x509_fingerprint,
             },
             # Security settings
             # "security": {
