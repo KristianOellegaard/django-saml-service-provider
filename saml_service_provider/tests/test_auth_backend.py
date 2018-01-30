@@ -10,6 +10,7 @@ class SAMLServiceProviderBackendTestCase(SamlServiceProviderTestCase):
     NEW_USER_USERNAME = 'jdoe'
     NEW_USER_FIRST_NAME = 'John'
     NEW_USER_LAST_NAME = 'Doe'
+    NEW_USER_ATTRIBUTES = {'First name': [NEW_USER_FIRST_NAME], 'Last name': [NEW_USER_LAST_NAME]}
 
     @classmethod
     def setUpTestData(cls):
@@ -25,7 +26,11 @@ class SAMLServiceProviderBackendTestCase(SamlServiceProviderTestCase):
 
     def testExistingUserIsAuthenticated(self):
         # Authenticate with the SAMLServiceProvider backend
-        saml_authentication = mock.Mock(is_authenticated=lambda: True, get_nameid=lambda: self.USER_USERNAME)
+        saml_authentication = mock.Mock(
+            is_authenticated=lambda: True,
+            get_attributes=lambda: self.NEW_USER_ATTRIBUTES,
+            get_nameid=lambda: self.USER_USERNAME
+        )
         user = self.auth_backend.authenticate(saml_authentication)
 
         # Verify that the user authenticated is the existing user
@@ -38,7 +43,7 @@ class SAMLServiceProviderBackendTestCase(SamlServiceProviderTestCase):
         # Authenticate with the SAMLServiceProvider backend
         saml_authentication = mock.Mock(
             is_authenticated=lambda: True,
-            get_attributes=lambda: {'First name': [self.NEW_USER_FIRST_NAME], 'Last name': [self.NEW_USER_LAST_NAME]},
+            get_attributes=lambda: self.NEW_USER_ATTRIBUTES,
             get_nameid=lambda: self.NEW_USER_USERNAME
         )
         user = self.auth_backend.authenticate(saml_authentication)
