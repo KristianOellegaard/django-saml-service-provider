@@ -58,6 +58,28 @@ class SAMLServiceProviderBackendTestCase(SamlServiceProviderTestCase):
         # Verify that a new user was created
         self.assertEquals(User.objects.count(), num_users + 1)
 
+    def testNewUserWithoutNamesIsCreated(self):
+        # Count the number of users
+        num_users = User.objects.count()
+
+        # Authenticate with the SAMLServiceProvider backend
+        saml_authentication = mock.Mock(
+            is_authenticated=lambda: True,
+            get_attributes=lambda: {'First name': [], 'Last name': []},
+            get_nameid=lambda: self.NEW_USER_USERNAME
+        )
+        user = self.auth_backend.authenticate(saml_authentication)
+
+        # Verify that the user authenticated is the new user
+        self.assertEquals(user, User.objects.get(username=self.NEW_USER_USERNAME))
+
+        # Verify that the user does not have a name
+        self.assertEquals(user.first_name, '')
+        self.assertEquals(user.last_name, '')
+
+        # Verify that a new user was created
+        self.assertEquals(User.objects.count(), num_users + 1)
+
     def testGetUserUsesAuthUser(self):
         # Verify that the user is looked up by PK
         self.assertEquals(self.auth_backend.get_user(self.user.pk), self.user)

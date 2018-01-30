@@ -3,10 +3,17 @@ from django.contrib.auth.models import User
 
 class SAMLServiceProviderBackend(object):
 
+    @staticmethod
+    def get_attribute_or_none(attributes, attribute_name):
+        try:
+            return attributes[attribute_name][0]
+        except IndexError:
+            return
+
     def update_attributes(self, user, attributes):
         # Set name
-        user.first_name = attributes['First name'][0]
-        user.last_name = attributes['Last name'][0]
+        user.first_name = self.get_attribute_or_none(attributes, 'First name') or ''
+        user.last_name = self.get_attribute_or_none(attributes, 'Last name') or ''
         user.save()
 
     def authenticate(self, saml_authentication=None):
