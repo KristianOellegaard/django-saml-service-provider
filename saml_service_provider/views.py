@@ -8,12 +8,15 @@ from onelogin.saml2.utils import OneLogin_Saml2_Utils
 from saml_service_provider.utils import prepare_from_django_request
 from django.conf import settings
 
+
 class OneloginMixin(object):
+
     def get_onelogin_settings(self):
         raise NotImplementedError("Please define a get_saml_settings method on this view")
 
 
 class InitiateAuthenticationView(OneloginMixin, View):
+
     def get(self, *args, **kwargs):
         req = prepare_from_django_request(self.request)
         auth = OneLogin_Saml2_Auth(req, self.get_onelogin_settings())
@@ -24,6 +27,7 @@ class InitiateAuthenticationView(OneloginMixin, View):
 
 
 class CompleteAuthenticationView(OneloginMixin, View):
+
     def post(self, request):
         req = prepare_from_django_request(request)
         auth = OneLogin_Saml2_Auth(req, self.get_onelogin_settings())
@@ -33,8 +37,10 @@ class CompleteAuthenticationView(OneloginMixin, View):
             if auth.is_authenticated():
                 user = authenticate(saml_authentication=auth)
                 login(self.request, user)
-                if 'RelayState' in req['post_data'] and \
-                  OneLogin_Saml2_Utils.get_self_url(req) != req['post_data']['RelayState']:
+                if (
+                    'RelayState' in req['post_data']
+                    and OneLogin_Saml2_Utils.get_self_url(req) != req['post_data']['RelayState']
+                ):
                     return HttpResponseRedirect(auth.redirect_to(req['post_data']['RelayState']))
                 else:
                     return HttpResponseRedirect("/")
@@ -47,6 +53,7 @@ class CompleteAuthenticationView(OneloginMixin, View):
 
 
 class MetadataView(OneloginMixin, View):
+
     def get(self, request, *args, **kwargs):
         req = prepare_from_django_request(request)
         auth = OneLogin_Saml2_Auth(req, self.get_onelogin_settings())
