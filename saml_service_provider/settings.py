@@ -1,5 +1,5 @@
-
 class SAMLServiceProviderSettings(object):
+
     contact_info = {
         # Contact information template, it is recommended to suply a
         # technical and support contacts.
@@ -23,12 +23,15 @@ class SAMLServiceProviderSettings(object):
         }
     }
 
-    def __init__(self,
-                 debug=False,
-                 strict=True,
-                 sp_metadata_url=None, sp_login_url=None, sp_logout_url=None, sp_x509cert=None, sp_private_key=None,  # Service provider settings (e.g. us)
-                 idp_metadata_url=None, idp_sso_url=None, idp_slo_url=None, idp_x509cert=None, idp_x509_fingerprint=None,  # Identify provider settings (e.g. onelogin)
+    def __init__(
+        self,
+        debug=False,
+        strict=True,
 
+        # Service provider settings (e.g. us)
+        sp_metadata_url=None, sp_login_url=None, sp_logout_url=None, sp_x509cert=None, sp_private_key=None,
+        # Identify provider settings (e.g. onelogin)
+        idp_metadata_url=None, idp_sso_url=None, idp_slo_url=None, idp_x509cert=None, idp_x509_fingerprint=None,
     ):
         super(SAMLServiceProviderSettings, self).__init__()
         self.settings = default_settings = {
