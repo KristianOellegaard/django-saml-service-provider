@@ -1,0 +1,13 @@
+[run]
+source = ./
+
+[report]
+exclude_lines =
+    pragma: no cover
+
+    # Ignore defensive assertion code / illegal states
+    raise AssertionError
+    raise NotImplementedError
+
+    # Ignore pass (often used in abstract methods)
+    pass
