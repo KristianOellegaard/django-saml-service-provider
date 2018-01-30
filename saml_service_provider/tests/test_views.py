@@ -2,9 +2,9 @@ import base64
 import os
 
 from django.contrib.auth import get_user
+
 import mock
 
-from saml_service_provider.settings import OneloginServiceProviderSettings
 from saml_service_provider.tests.utils import SamlServiceProviderTestCase
 
 
@@ -13,16 +13,7 @@ class InitiateAuthenticationViewTestCase(SamlServiceProviderTestCase):
     def assertStartsWith(self, full_string, expected_substring):
         return self.assertEquals(full_string[:len(expected_substring)], expected_substring)
 
-    @mock.patch('saml_service_provider.views.OneloginMixin.get_onelogin_settings')
-    def testInitiateAuthenticationRedirectsToIDP(self, mock_get_onelogin_settings):
-        mock_get_onelogin_settings.return_value = OneloginServiceProviderSettings(
-            onelogin_x509_cert=base64.b64encode('abc123'),
-            sp_metadata_url=self.METADATA_URL,
-            sp_login_url='{root}/complete-login/'.format(root=self.ROOT_URL),
-            sp_x509cert="",
-            sp_private_key=""
-        ).settings
-
+    def testInitiateAuthenticationRedirectsToIDP(self):
         # Verify that the user is not yet authenticated
         user = get_user(self.client)
         self.assertFalse(user.is_authenticated())
@@ -59,15 +50,7 @@ class CompleteAuthenticationViewTestCase(SamlServiceProviderTestCase):
         )
 
     @mock.patch('onelogin.saml2.response.OneLogin_Saml2_Response.is_valid')
-    @mock.patch('saml_service_provider.views.OneloginMixin.get_onelogin_settings')
-    def testUserRedirectsToRelayState(self, mock_get_onelogin_settings, mock_is_valid):
-        mock_get_onelogin_settings.return_value = OneloginServiceProviderSettings(
-            onelogin_x509_cert=base64.b64encode('abc123'),
-            sp_metadata_url=self.METADATA_URL,
-            sp_login_url='{root}/complete-login/'.format(root=self.ROOT_URL),
-            sp_x509cert="",
-            sp_private_key=""
-        ).settings
+    def testUserRedirectsToRelayState(self, mock_is_valid):
         mock_is_valid.return_value = True
 
         # Verify that the user is not yet authenticated
@@ -100,15 +83,7 @@ class CompleteAuthenticationViewTestCase(SamlServiceProviderTestCase):
         self.assertEquals(redirect_url.replace(self.ROOT_URL, ''), relay_url)
 
     @mock.patch('onelogin.saml2.response.OneLogin_Saml2_Response.is_valid')
-    @mock.patch('saml_service_provider.views.OneloginMixin.get_onelogin_settings')
-    def testUserRedirectsToRootWithoutRelayState(self, mock_get_onelogin_settings, mock_is_valid):
-        mock_get_onelogin_settings.return_value = OneloginServiceProviderSettings(
-            onelogin_x509_cert=base64.b64encode('abc123'),
-            sp_metadata_url=self.METADATA_URL,
-            sp_login_url='{root}/complete-login/'.format(root=self.ROOT_URL),
-            sp_x509cert="",
-            sp_private_key=""
-        ).settings
+    def testUserRedirectsToRootWithoutRelayState(self, mock_is_valid):
         mock_is_valid.return_value = True
 
         # Simulate a POST request from OneLogin to log a user in
@@ -128,16 +103,7 @@ class CompleteAuthenticationViewTestCase(SamlServiceProviderTestCase):
         self.assertEquals(redirect_status_code, 302)
         self.assertEquals(redirect_url.replace(self.ROOT_URL, ''), '/')
 
-    @mock.patch('saml_service_provider.views.OneloginMixin.get_onelogin_settings')
-    def testBadSamlResponse(self, mock_get_onelogin_settings):
-        mock_get_onelogin_settings.return_value = OneloginServiceProviderSettings(
-            onelogin_x509_cert=base64.b64encode('abc123'),
-            sp_metadata_url=self.METADATA_URL,
-            sp_login_url='{root}/complete-login/'.format(root=self.ROOT_URL),
-            sp_x509cert="",
-            sp_private_key=""
-        ).settings
-
+    def testBadSamlResponse(self):
         # Simulate a POST request with an invalid SAMLResponse
         # This response is invalid naturally, since we're not
         # mocking the OneLogin_Saml2_Response.is_valid() method
@@ -153,16 +119,7 @@ class CompleteAuthenticationViewTestCase(SamlServiceProviderTestCase):
 
 class MetadataViewTestCase(SamlServiceProviderTestCase):
 
-    @mock.patch('saml_service_provider.views.OneloginMixin.get_onelogin_settings')
-    def testMetadataView(self, mock_get_onelogin_settings):
-        mock_get_onelogin_settings.return_value = OneloginServiceProviderSettings(
-            onelogin_x509_cert=base64.b64encode('abc123'),
-            sp_metadata_url=self.METADATA_URL,
-            sp_login_url='{root}/complete-login/'.format(root=self.ROOT_URL),
-            sp_x509cert="",
-            sp_private_key=""
-        ).settings
-
+    def testMetadataView(self):
         # Verify that the metadata requests render successfully
         response = self.client.get('/metadata/', HTTP_HOST=self.HOST)
         self.assertEquals(response.status_code, 200)
