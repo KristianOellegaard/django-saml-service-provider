@@ -5,7 +5,7 @@ class SAMLServiceProviderBackend(object):
 
     def authenticate(self, saml_authentication=None):
         if not saml_authentication:  # Using another authentication method
-            return None
+            return
 
         if saml_authentication.is_authenticated():
             attributes = saml_authentication.get_attributes()
@@ -18,10 +18,10 @@ class SAMLServiceProviderBackend(object):
                 user.last_name = attributes['Last name'][0]
                 user.save()
             return user
-        return None
+        return
 
     def get_user(self, user_id):
         try:
             return User.objects.get(pk=user_id)
         except User.DoesNotExist:
-            return None
+            return
