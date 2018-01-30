@@ -1,11 +1,12 @@
-from django.contrib.auth import login, authenticate
+from django.conf import settings
+from django.contrib.auth import authenticate, login
 from django.core.exceptions import PermissionDenied
-from django.http import HttpResponseRedirect, HttpResponseBadRequest, HttpResponse, HttpResponseServerError
+from django.http import HttpResponse, HttpResponseBadRequest, HttpResponseRedirect, HttpResponseServerError
 from django.views.generic import View
 from onelogin.saml2.auth import OneLogin_Saml2_Auth
 from onelogin.saml2.utils import OneLogin_Saml2_Utils
+
 from saml_service_provider.utils import prepare_from_django_request
-from django.conf import settings
 
 
 class OneloginMixin(object):
