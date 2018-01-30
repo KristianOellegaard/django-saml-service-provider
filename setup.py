@@ -41,6 +41,7 @@ class TestCommand(Command):
 setup(
     name='django-saml-service-provider',
     version=version,
+    license='BSD License',
     description='Easily let users sign in via SAML 2.0 to your django app.',
     long_description='',
     author='Kristian Oellegaard',
