@@ -22,7 +22,7 @@ class SAMLServiceProviderSettingsTestCase(unittest.TestCase):
         self.assertEquals(settings['idp']['x509cert'], x509_cert)
 
     def testOneloginX509FingerprintSetsIDPX509Fingerprint(self):
-        x509_fingerprint = hashlib.sha1('abc123').hexdigest
+        x509_fingerprint = hashlib.sha1('abc123').hexdigest()
         settings = OneloginServiceProviderSettings(onelogin_x509_fingerprint=x509_fingerprint).settings
 
         # Verify that the IDP X509 fingerprint matches the one provided to OneloginServiceProviderSettings
