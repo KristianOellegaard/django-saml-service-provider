@@ -16,7 +16,7 @@ class InitiateAuthenticationViewTestCase(SamlServiceProviderTestCase):
     def testInitiateAuthenticationRedirectsToIDP(self):
         # Verify that the user is not yet authenticated
         user = get_user(self.client)
-        self.assertFalse(user.is_authenticated())
+        self.assertFalse(self.user_is_authenticated(user))
 
         # Verify that unauthenticated requests to initate login redirect the user to complete login
         response = self.client.get('/initiate-login/', follow=True, HTTP_HOST=self.HOST)
@@ -39,7 +39,7 @@ class CompleteAuthenticationViewTestCase(SamlServiceProviderTestCase):
                 first_name=first_name,
                 last_name=last_name
             )
-        return base64.b64encode(saml_response_xml)
+        return base64.b64encode(saml_response_xml.encode('utf-8')).decode('utf-8')
 
     @classmethod
     def generate_basic_saml_response(cls):
@@ -55,7 +55,7 @@ class CompleteAuthenticationViewTestCase(SamlServiceProviderTestCase):
 
         # Verify that the user is not yet authenticated
         user = get_user(self.client)
-        self.assertFalse(user.is_authenticated())
+        self.assertFalse(self.user_is_authenticated(user))
 
         # Simulate a POST request from OneLogin to log a user in
         relay_url = '/relay/'
@@ -72,7 +72,7 @@ class CompleteAuthenticationViewTestCase(SamlServiceProviderTestCase):
 
         # Verify that the user is now authenticated
         user = get_user(self.client)
-        self.assertTrue(user.is_authenticated())
+        self.assertTrue(self.user_is_authenticated(user))
 
         # Verify that the user is the one in the SAML response
         self.assertEquals(user.username, self.USER_USERNAME)
@@ -96,7 +96,7 @@ class CompleteAuthenticationViewTestCase(SamlServiceProviderTestCase):
 
         # Verify that the user is now authenticated
         user = get_user(self.client)
-        self.assertTrue(user.is_authenticated())
+        self.assertTrue(self.user_is_authenticated(user))
 
         # Verify that the user redirects to the root
         redirect_url, redirect_status_code = response.redirect_chain[0]

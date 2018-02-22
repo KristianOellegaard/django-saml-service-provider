@@ -9,10 +9,17 @@ env:
   - DJANGO_VERSION=1.11.9
 
 install:
-  - sudo apt-get install python-dev libxml2-dev libxmlsec1-dev
-  - pip install -q coverage python-saml Django==$DJANGO_VERSION
+  - sudo apt-get install python-dev python3-dev libxml2-dev libxmlsec1-dev
+  - pip install -q coverage python3-saml Django==$DJANGO_VERSION
 
 script: coverage run ./setup.py test
 
 after_success:
   - bash <(curl -s https://codecov.io/bash)
+
+matrix:
+  include:
+    - python: 3.6
+      env: DJANGO_VERSION=1.11.9
+    - python: 3.6
+      env: DJANGO_VERSION=2.0.2

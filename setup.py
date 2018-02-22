@@ -30,7 +30,8 @@ class TestCommand(Command):
                 'django.contrib.contenttypes',
                 'django.contrib.sessions',
             ),
-            MIDDLEWARE_CLASSES=('django.contrib.sessions.middleware.SessionMiddleware',),
+            MIDDLEWARE=('django.contrib.sessions.middleware.SessionMiddleware',),
+            MIDDLEWARE_CLASSES=('django.contrib.sessions.middleware.SessionMiddleware',),  # Django < 1.10
             ROOT_URLCONF='saml_service_provider.urls',
             AUTHENTICATION_BACKENDS=['saml_service_provider.auth_backend.SAMLServiceProviderBackend']
         )
@@ -51,8 +52,8 @@ setup(
     zip_safe=False,
     include_package_data=True,
     install_requires=[
-        'Django >= 1.8, < 2.0a0',
-        'python-saml',
+        'Django >= 1.8, < 2.1a0',
+        'python3-saml',
     ],
     tests_require=[
         'mock',
@@ -64,10 +65,12 @@ setup(
         "Framework :: Django :: 1.9",
         "Framework :: Django :: 1.10",
         "Framework :: Django :: 1.11",
+        "Framework :: Django :: 2.0",
         "Intended Audience :: Developers",
         "License :: OSI Approved :: BSD License",
         "Operating System :: OS Independent",
         "Programming Language :: Python :: 2.7",
+        "Programming Language :: Python :: 3.6",
     ],
     cmdclass={'test': TestCommand}
 )
