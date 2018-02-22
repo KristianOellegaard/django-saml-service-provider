@@ -10,7 +10,7 @@ METADATA_URL = '{root}/metadata/'.format(root=ROOT_URL)
 
 
 @override_settings(
-    ONELOGIN_X509_CERT=base64.b64encode('abc123'),
+    ONELOGIN_X509_CERT=base64.b64encode(b'abc123').decode('utf-8'),
     SP_METADATA_URL=METADATA_URL,
     SP_LOGIN_URL='{root}/complete-login/'.format(root=ROOT_URL)
 )

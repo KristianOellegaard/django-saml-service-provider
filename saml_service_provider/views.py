@@ -60,8 +60,10 @@ class CompleteAuthenticationView(OneloginMixin, View):
                 raise PermissionDenied()
         else:
             if settings.DEBUG:
-                print auth.get_last_error_reason()
-            return HttpResponseBadRequest("Error when processing SAML Response: %s" % (', '.join(errors)))
+                print(auth.get_last_error_reason())
+            return HttpResponseBadRequest(
+                "Error when processing SAML Response: {errors}".format(errors=', '.join(errors))
+            )
 
 
 class MetadataView(OneloginMixin, View):

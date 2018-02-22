@@ -167,9 +167,15 @@ class SAMLServiceProviderSettings(object):
 
 class OneloginServiceProviderSettings(SAMLServiceProviderSettings):
     def __init__(self, onelogin_connector_id=None, onelogin_x509_cert=None, onelogin_x509_fingerprint=None, **kwargs):
-        kwargs['idp_metadata_url'] = 'https://app.onelogin.com/saml/metadata/%s' % onelogin_connector_id
-        kwargs['idp_sso_url'] = 'https://app.onelogin.com/trust/saml2/http-post/sso/%s/' % onelogin_connector_id
-        kwargs['idp_slo_url'] = 'https://app.onelogin.com/trust/saml2/http-redirect/slo/%s/' % onelogin_connector_id
+        kwargs['idp_metadata_url'] = 'https://app.onelogin.com/saml/metadata/{id}'.format(
+            id=onelogin_connector_id
+        )
+        kwargs['idp_sso_url'] = 'https://app.onelogin.com/trust/saml2/http-post/sso/{id}/'.format(
+            id=onelogin_connector_id
+        )
+        kwargs['idp_slo_url'] = 'https://app.onelogin.com/trust/saml2/http-redirect/slo/{id}/'.format(
+            id=onelogin_connector_id
+        )
         if onelogin_x509_cert:
             kwargs['idp_x509cert'] = onelogin_x509_cert
         elif onelogin_x509_fingerprint:

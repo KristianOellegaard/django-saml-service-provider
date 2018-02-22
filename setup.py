@@ -52,7 +52,7 @@ setup(
     include_package_data=True,
     install_requires=[
         'Django >= 1.8, < 2.0a0',
-        'python-saml',
+        'python3-saml',
     ],
     tests_require=[
         'mock',
@@ -68,6 +68,7 @@ setup(
         "License :: OSI Approved :: BSD License",
         "Operating System :: OS Independent",
         "Programming Language :: Python :: 2.7",
+        "Programming Language :: Python :: 3.6",
     ],
     cmdclass={'test': TestCommand}
 )

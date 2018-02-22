@@ -39,7 +39,7 @@ class CompleteAuthenticationViewTestCase(SamlServiceProviderTestCase):
                 first_name=first_name,
                 last_name=last_name
             )
-        return base64.b64encode(saml_response_xml)
+        return base64.b64encode(saml_response_xml.encode('utf-8')).decode('utf-8')
 
     @classmethod
     def generate_basic_saml_response(cls):
