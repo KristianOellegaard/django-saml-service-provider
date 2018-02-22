@@ -1,5 +1,5 @@
 # django-saml-service-provider
-Easily let users sign in via SAML 2.0 to your django app. Based on python-saml and comes with a Onelogin.com provider, so you
+Easily let users sign in via SAML 2.0 to your django app. Based on python3-saml and comes with a Onelogin.com provider, so you
 need to do very little work to get started.
 
 [![Build Status](https://travis-ci.org/infoscout/django-saml-service-provider.svg?branch=master)](https://travis-ci.org/infoscout/django-saml-service-provider)
