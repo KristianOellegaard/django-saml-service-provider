@@ -1,5 +1,6 @@
 import base64
 
+import django
 from django.contrib.auth.models import User
 from django.test import TestCase, override_settings
 
@@ -23,6 +24,12 @@ class SamlServiceProviderTestCase(TestCase):
     USER_USERNAME = 'msmith'
     USER_FIRST_NAME = 'Mary'
     USER_LAST_NAME = 'Smith'
+
+    @staticmethod
+    def user_is_authenticated(user):
+        if django.VERSION < (1, 10,):
+            return user.is_authenticated()
+        return user.is_authenticated
 
     @classmethod
     def setUpTestData(cls):

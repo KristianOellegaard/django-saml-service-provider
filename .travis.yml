@@ -21,3 +21,5 @@ matrix:
   include:
     - python: 3.6
       env: DJANGO_VERSION=1.11.9
+    - python: 3.6
+      env: DJANGO_VERSION=2.0.2
