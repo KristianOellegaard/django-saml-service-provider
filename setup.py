@@ -53,7 +53,7 @@ setup(
     include_package_data=True,
     install_requires=[
         'Django >= 1.8, < 2.1a0',
-        'python3-saml',
+        'python3-saml >= 1.4.0',
     ],
     tests_require=[
         'mock',
