@@ -1,9 +1,47 @@
-from setuptools import setup, find_packages
+from setuptools import Command, find_packages, setup
+
 from saml_service_provider import __version__ as version
+
+
+class TestCommand(Command):
+
+    user_options = []
+
+    def initialize_options(self):
+        pass
+
+    def finalize_options(self):
+        pass
+
+    def run(self):
+        import django
+        from django.conf import settings
+        from django.core.management import call_command
+
+        settings.configure(
+            DATABASES={
+                'default': {
+                    'NAME': ':memory:',
+                    'ENGINE': 'django.db.backends.sqlite3',
+                },
+            },
+            INSTALLED_APPS=(
+                'django.contrib.auth',
+                'django.contrib.contenttypes',
+                'django.contrib.sessions',
+            ),
+            MIDDLEWARE_CLASSES=('django.contrib.sessions.middleware.SessionMiddleware',),
+            ROOT_URLCONF='saml_service_provider.urls',
+            AUTHENTICATION_BACKENDS=['saml_service_provider.auth_backend.SAMLServiceProviderBackend']
+        )
+        django.setup()
+        call_command('test', 'saml_service_provider')
+
 
 setup(
     name='django-saml-service-provider',
     version=version,
+    license='BSD License',
     description='Easily let users sign in via SAML 2.0 to your django app.',
     long_description='',
     author='Kristian Oellegaard',
@@ -13,8 +51,11 @@ setup(
     zip_safe=False,
     include_package_data=True,
     install_requires=[
-        'Django>=1.4',
-        'python-saml'
+        'Django >= 1.4',
+        'python-saml',
+    ],
+    tests_require=[
+        'mock',
     ],
     classifiers=[
         "Development Status :: 5 - Production/Stable",
@@ -23,5 +64,6 @@ setup(
         "License :: OSI Approved :: BSD License",
         "Operating System :: OS Independent",
         "Programming Language :: Python :: 2.7",
-    ]
+    ],
+    cmdclass={'test': TestCommand}
 )
