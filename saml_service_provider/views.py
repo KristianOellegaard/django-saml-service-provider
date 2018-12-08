@@ -47,7 +47,7 @@ class CompleteAuthenticationView(OneloginMixin, View):
         errors = auth.get_errors()
         if not errors:
             if auth.is_authenticated():
-                user = authenticate(saml_authentication=auth)
+                user = authenticate(request=req, saml_authentication=auth)
                 login(self.request, user)
                 if (
                     'RelayState' in req['post_data']
