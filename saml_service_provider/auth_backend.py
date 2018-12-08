@@ -23,7 +23,7 @@ class SAMLServiceProviderBackend(object):
         user.last_name = self.get_attribute_or_none(attributes, self.ATTRIBUTE_NAME_LAST_NAME) or ''
         user.save()
 
-    def authenticate(self, saml_authentication=None):
+    def authenticate(self, request=None, saml_authentication=None):
         if not saml_authentication:  # Using another authentication method
             return
 

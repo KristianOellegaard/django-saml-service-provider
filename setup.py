@@ -52,7 +52,7 @@ setup(
     zip_safe=False,
     include_package_data=True,
     install_requires=[
-        'Django >= 1.8, < 2.1a0',
+        'Django >= 1.8, < 2.2a0',
         'python3-saml >= 1.4.0',
     ],
     tests_require=[
@@ -66,6 +66,7 @@ setup(
         "Framework :: Django :: 1.10",
         "Framework :: Django :: 1.11",
         "Framework :: Django :: 2.0",
+        "Framework :: Django :: 2.1",
         "Intended Audience :: Developers",
         "License :: OSI Approved :: BSD License",
         "Operating System :: OS Independent",

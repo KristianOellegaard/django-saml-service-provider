@@ -1,4 +1,5 @@
 from django.contrib.auth.models import User
+from django.test import RequestFactory
 import mock
 
 from saml_service_provider.auth_backend import SAMLServiceProviderBackend
@@ -15,14 +16,19 @@ class SAMLServiceProviderBackendTestCase(SamlServiceProviderTestCase):
     @classmethod
     def setUpTestData(cls):
         super(SAMLServiceProviderBackendTestCase, cls).setUpTestData()
+        cls.request_factory = RequestFactory()
         cls.auth_backend = SAMLServiceProviderBackend()
 
+    def setUp(self):
+        super(SAMLServiceProviderBackendTestCase, self).setUp()
+        self.auth_request = self.request_factory.get('/initiate-login/')
+
     def testNoAuthenticationMeansDifferentBackend(self):
-        self.assertIsNone(self.auth_backend.authenticate())
+        self.assertIsNone(self.auth_backend.authenticate(self.auth_request))
 
     def testNoUserIsReturnedIfNoneIsAuthenticated(self):
         saml_authentication = mock.Mock(is_authenticated=lambda: False)
-        self.assertIsNone(self.auth_backend.authenticate(saml_authentication))
+        self.assertIsNone(self.auth_backend.authenticate(self.auth_request, saml_authentication))
 
     def testExistingUserIsAuthenticated(self):
         # Authenticate with the SAMLServiceProvider backend
@@ -31,7 +37,7 @@ class SAMLServiceProviderBackendTestCase(SamlServiceProviderTestCase):
             get_attributes=lambda: self.NEW_USER_ATTRIBUTES,
             get_nameid=lambda: self.USER_USERNAME
         )
-        user = self.auth_backend.authenticate(saml_authentication)
+        user = self.auth_backend.authenticate(self.auth_request, saml_authentication)
 
         # Verify that the user authenticated is the existing user
         self.assertEquals(user, User.objects.get(username=self.USER_USERNAME))
@@ -46,7 +52,7 @@ class SAMLServiceProviderBackendTestCase(SamlServiceProviderTestCase):
             get_attributes=lambda: self.NEW_USER_ATTRIBUTES,
             get_nameid=lambda: self.NEW_USER_USERNAME
         )
-        user = self.auth_backend.authenticate(saml_authentication)
+        user = self.auth_backend.authenticate(self.auth_request, saml_authentication)
 
         # Verify that the user authenticated is the new user
         self.assertEquals(user, User.objects.get(username=self.NEW_USER_USERNAME))
@@ -68,7 +74,7 @@ class SAMLServiceProviderBackendTestCase(SamlServiceProviderTestCase):
             get_attributes=lambda: {'First name': [], 'Last name': []},
             get_nameid=lambda: self.NEW_USER_USERNAME
         )
-        user = self.auth_backend.authenticate(saml_authentication)
+        user = self.auth_backend.authenticate(self.auth_request, saml_authentication)
 
         # Verify that the user authenticated is the new user
         self.assertEquals(user, User.objects.get(username=self.NEW_USER_USERNAME))

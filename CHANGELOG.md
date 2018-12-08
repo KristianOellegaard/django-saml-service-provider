@@ -4,6 +4,11 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [2.2.0] - 2018-12-07
+
+### Added
+- Django 2.1 support
+
 ## [2.1.1] - 2018-02-28
 
 ### Changed
