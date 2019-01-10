@@ -4,6 +4,11 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](http://keepachangelog.com/)
 and this project adheres to [Semantic Versioning](http://semver.org/).
 
+## [2.3.0] - 2019-01-10
+
+### Added
+- Allow optional setting `ONELOGIN_IDP_ENTITY_ID`, which provides a custom entity id in the IDP's metadata URL, instead of the connector id
+
 ## [2.2.0] - 2018-12-07
 
 ### Added
