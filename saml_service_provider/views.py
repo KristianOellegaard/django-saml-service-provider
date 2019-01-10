@@ -15,6 +15,7 @@ class OneloginMixin(object):
     def get_onelogin_settings(self):
         return OneloginServiceProviderSettings(
             onelogin_connector_id=getattr(settings, 'ONELOGIN_CONNECTOR_ID', None),
+            onelogin_idp_entity_id=getattr(settings, 'ONELOGIN_IDP_ENTITY_ID', None),
             onelogin_x509_cert=getattr(settings, 'ONELOGIN_X509_CERT', None),
             onelogin_x509_fingerprint=getattr(settings, 'ONELOGIN_X509_FINGERPRINT', None),
             sp_metadata_url=getattr(settings, 'SP_METADATA_URL', None),
